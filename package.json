@@ -1,0 +1,11 @@
+{ "name" : "ceres"
+, "description" : "An experimental port of graphite's ceres backend."
+, "version" : "0.0.1"
+, "directories" : { "lib" : "./lib" }
+, "main" : "index.js"
+, "author" : "Ciaran Jessup <ciaranj@gmail.com>"
+, "dependencies": {
+     "mkdirp": "0.3.5"
+    ,"nomnom": "1.6.0"
+  }
+}

@@ -4,3 +4,4 @@ docs/_build
 dist
 *.log
 *.pyc
+node_modules
