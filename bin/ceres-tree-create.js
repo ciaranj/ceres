@@ -21,10 +21,10 @@ options.properties= props;
 
 if (options.verbose) {
   console.log( "Creating tree at " + options.path+" with props= " +  JSON.stringify(options.properties) );
-  CeresTree.createTree(options.path, options.properties, function(err, tree) {
-     if( err ) {
-       console.log( "There was an error : ", err );
-       process.exit(1);
-     }
-  });
 }
+CeresTree.create(options.path, options.properties, function(err, tree) {
+   if( err ) {
+     console.log( "There was an error : ", err );
+     process.exit(1);
+   }
+});
