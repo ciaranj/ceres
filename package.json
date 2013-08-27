@@ -9,4 +9,12 @@
     ,"nomnom": "1.6.0"
     ,"sloth": "0.5.1"
   }
+, "devDependencies": {
+      "mocha" :"=1.6.0"
+    , "should" :"=1.2.0"
+    , "sinon" : "=1.7.3"
+  }
+, "scripts" : {
+    "test" : "mocha --require should --reporter list  --timeout 200"
+  }
 }
