@@ -8,6 +8,8 @@
      "mkdirp": "0.3.5"
     ,"nomnom": "1.6.0"
     ,"sloth": "0.5.1"
+    ,"async": "0.2.9"
+    ,"glob": "3.2.6"
   }
 , "devDependencies": {
       "mocha" :"=1.6.0"
