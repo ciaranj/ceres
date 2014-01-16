@@ -32,7 +32,7 @@ describe("CeresTree.getTree()", function() {
       callback(null, [".ceres-tree"]);
     });
     var mock = sandbox.mock(CeresTreeModule);
-    mock.expects("CeresTree").once().withArgs("/graphite/storage/ceres")
+    mock.expects("CeresTree").once().withArgs(path.resolve("/graphite/storage/ceres"))
 
     CeresTreeModule.CeresTree.getTree('/graphite/storage/ceres', function(err, tree) {
       assert.equal( true, err ==  null );
@@ -57,7 +57,7 @@ describe("CeresTree.createTree()", function() {
     open_mock.expects("writeFile").never();
     var makedirs_mock= sandbox.mock(mkdirp);
     makedirs_mock.expects("mkdirp")
-                 .once().withArgs("/graphite/storage/ceres/.ceres-tree", CeresConstants.DIR_PERMS)
+                 .once().withArgs(path.resolve("/graphite/storage/ceres/.ceres-tree"), CeresConstants.DIR_PERMS)
                  .callsArg(2);
     CeresTreeModule.CeresTree.create("/graphite/storage/ceres", function(){
       open_mock.verify();
@@ -96,7 +96,7 @@ describe("CeresTree.createTree()", function() {
     for(var k in props) {
       open_mock.expects("writeFile")
                .once()
-               .withArgs( path.join("/graphite/storage/ceres", ".ceres-tree", k), props[k] )
+               .withArgs( path.resolve(path.join("/graphite/storage/ceres", ".ceres-tree", k)), props[k] )
                .callsArg(3);
     }
 
@@ -163,7 +163,7 @@ describe("CeresTree", function() {
         var ceres_node_constructor_mock= sandbox.mock(CeresNodeModule);
         ceres_node_constructor_mock.expects("CeresNode")
                                    .once()
-                                   .withArgs(sinon.match.any, "metrics.foo", "/graphite/storage/ceres/metrics/foo")
+                                   .withArgs(sinon.match.any, "metrics.foo", path.resolve("/graphite/storage/ceres/metrics/foo"))
                                    .returns( ceres_node_constructor_mock );
 
         var ceres_node_mock= sandbox.mock(CeresNodeModule.CeresNode);
