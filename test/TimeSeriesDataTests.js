@@ -8,7 +8,7 @@ describe("TimeSeriesData", function(){
   beforeEach(function(){
     time_series= new TimeSeriesData(0,50,5, [0,1,2,3,4,5,6,7,8,9]);
   });
-  describe("timestamps()", function(){
+  describe("#timestamps()", function(){
     it("should correctly calculate the timestamps", function() {
       var timestamps= time_series.timestamps();
       assert.notEqual( timestamps, null );
@@ -21,7 +21,7 @@ describe("TimeSeriesData", function(){
       assert.equal(tsCount, 10);
     });
   });
-  describe("data()", function(){
+  describe("#data()", function(){
     it("should correctly produce an iterator for the timestamps and values", function() {
       var values= time_series.data();
       var valueCount= 0;
@@ -33,7 +33,7 @@ describe("TimeSeriesData", function(){
       assert.equal(valueCount, 10);
     });
   });
-  describe("merge()", function(){
+  describe("#merge()", function(){
     it("should have no effect if the time series has no gaps", function() {
       var other_series = new TimeSeriesData(0, 25, 5, [1.0, 4.0, 9.0, 16.0, 25.0])
       var original_values= time_series.data().force();

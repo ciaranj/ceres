@@ -256,6 +256,17 @@ describe("CeresTree", function() {
       });
     });
     describe("#store()", function() {
+      it("should return a NodeNotFound error for an invalid metric", function(done){
+        var datapoints = [[100,1.0]];
+        sandbox.stub(ceres_tree, "getNode").callsArgWith(1, null);
+
+        ceres_tree.store('metrics.foo', datapoints, function(err) {
+          assert.notEqual( err, null );
+          assert( err instanceof CeresErrors.NodeNotFound)
+          done();
+        });        
+      });
+          
       it("should store given datapoints for a given valid metric", function(done){
         var datapoints = [[100,1.0]];
         var spy= sandbox.spy(CeresNodeModule, "CeresNode");
