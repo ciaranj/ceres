@@ -109,6 +109,63 @@ describe("CeresNode", function(){
       });
     });
   });
+  describe("non-ported tests", function() {
+    describe("getTimeStepForTimeStamp", function() {
+      it("should return the configured timeStep for the node if no retentions have been specified.", function(done) {
+        delete ceres_node.timeStep;
+        sandbox.stub(fs, "readFile").callsArgWith(2, null, "{\"timeStep\":60}");
+        // 10000 seconds in past ;)
+        var now= ( new Date() / 1000 ) - 10000;
+        ceres_node.getTimeStepForTimeStamp( now, function(err, timeStep){
+          assert.equal(err, null);
+          assert.equal(timeStep, 60);
+          done();
+        });
+      });
+      it("should return the correct timeStep if the timestep is within a potential retention period", function(done) {
+        delete ceres_node.timeStep;
+        // 10000 seconds in past ;)
+        var now= ( new Date() / 1000 );
+        // Should push us into the second retention timestep of '900'
+        var offset= (60 * 50400) + 1;
+        var newTime= now - offset;
+        sandbox.stub(fs, "readFile").callsArgWith(2, null, "{\"timeStep\":60, \"retentions\":[[60,50400],[900,8064],[3600,8760],[86400,730]]}");
+        ceres_node.getTimeStepForTimeStamp( newTime, function(err, timeStep){
+          assert.equal(err, null);
+          assert.equal(timeStep, 900);
+          done();
+        });
+      });
+      it("should return the least precise configured timeStep if the timestep is prior to any potential retention period", function(done) {
+        delete ceres_node.timeStep;
+        // 10000 seconds in past ;)
+        var now= ( new Date() / 1000 );
+        // Should push us beyond any timesteps we have
+        var offset= (60 * 50400) + (900 * 8064) + (3600 * 8760) + (864000*730) + 00;
+        var newTime= now - offset;
+        sandbox.stub(fs, "readFile").callsArgWith(2, null, "{\"timeStep\":60, \"retentions\":[[60,50400],[900,8064],[3600,8760],[86400,730]]}");
+        ceres_node.getTimeStepForTimeStamp( newTime, function(err, timeStep){
+          assert.equal(err, null);
+          assert.equal(timeStep, 86400);
+          done();
+        });
+      });
+      it("should return the least precise configured timeStep if the timestep is prior to any potential retention period (only 1 period specified)", function(done) {
+        delete ceres_node.timeStep;
+        // 10000 seconds in past ;)
+        var now= ( new Date() / 1000 );
+        // Should push us beyond any timesteps we have
+        var offset= (60 * 50400) + (900 * 8064) + (3600 * 8760) + (864000*730) + 00;
+        var newTime= now - offset;
+        sandbox.stub(fs, "readFile").callsArgWith(2, null, "{\"timeStep\":60, \"retentions\":[[60,50400]]}");
+        ceres_node.getTimeStepForTimeStamp( newTime, function(err, timeStep){
+          assert.equal(err, null);
+          assert.equal(timeStep, 60);
+          done();
+        });
+      });
+    })
+  })
 });
 
 /*
