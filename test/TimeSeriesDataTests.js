@@ -41,7 +41,7 @@ describe("TimeSeriesData", function(){
       assert.deepEqual( original_values, time_series.data().force());
     });
     it("should replace empty values (nulls) with the merged in values", function() {
-      var new_series = new TimeSeriesData(0, 50, 5, [null,null,null,null,null,null,null,null,null,null]);
+      var new_series = new TimeSeriesData(0, 50, 5, [null,undefined,null,null,undefined,null,undefined,null,null,null]);
       new_series.merge(time_series)
       assert.deepEqual(time_series.data().force(), new_series.data().force())
     });
